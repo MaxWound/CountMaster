@@ -162,9 +162,7 @@ public class AlliesGroup : MonoBehaviour
             Destroy(enemyToDestroy.gameObject);
 
             Ally allyToDestroy = _ally[0];
-            _ally[0].SpawnPoint.Despawn();
-            _ally.Remove(allyToDestroy);
-            Destroy(allyToDestroy.gameObject);
+            Kill(allyToDestroy);
             yield return new WaitForEndOfFrame();
 
             if (_ally.Count == 0)
@@ -182,9 +180,11 @@ public class AlliesGroup : MonoBehaviour
             }
             _ally.ForEach(ally => ally.Attack(false));
             groupToRemove.Destory();
+            
         }
         else
         {
+           
             UIManager.Instance.ShowCondition(Condition.Lose);
         }
     }
@@ -222,19 +222,21 @@ public class AlliesGroup : MonoBehaviour
             yield return new WaitForEndOfFrame();
 
             if (_ally.Count == 0)
-              
-            break;
-            if (gunner.currentHealth == 0)
+
             {
+                UIManager.Instance.ShowCondition(Condition.Lose);
+                MovementController.Instance.ChangeControllerState();
+                break;
+            }
+            else if (gunner.currentHealth == 0)
+            {
+                _ally.ForEach(ally => ally.Attack(false));
                 MovementController.Instance.ChangeControllerState();
                 gunner.SelfDestroy();
                 break;
             }
         }
-        if(_ally.Count == 0)
-        {
-            UIManager.Instance.ShowCondition(Condition.Lose);
-        }
+        
 
     }
     private IEnumerator StartBattle(Boss boss)
@@ -250,8 +252,13 @@ public class AlliesGroup : MonoBehaviour
 
                 SoundsController.Instance.Play(Sound.Fire);
                 yield return new WaitForSeconds(0.11f);
+                
             }
-            KillAllies(boss);
+            
+            if(_ally.Count != 0)
+            {
+                boss.KillAllies();
+            }
 
             yield return new WaitForSeconds(0.75f);
         }
@@ -272,25 +279,30 @@ public class AlliesGroup : MonoBehaviour
 
     public void KillAllies(Boss bossWichAttack)
     {
-        int alliesToKill = Random.Range(1, 3);
-        int i = 0;
-        while (i < alliesToKill && _ally.Count > 0)
+        if (_ally.Count != 0)
         {
-            if (_ally.Count > 0)
+            int alliesToKill = Random.Range(1, 3);
+            int i = 0;
+            while (i < alliesToKill && _ally.Count > 0)
             {
-                Destroy(_ally[0].gameObject);
-                _ally.Remove(_ally[0]);
+                if (_ally.Count > 0)
+                {
+                    Destroy(_ally[0].gameObject);
+                    _ally.Remove(_ally[0]);
+                }
+                i++;
             }
-            i++;
-        }
 
-        if (_ally.Count == 0)
-        {
-            UIManager.Instance.ShowCondition(Condition.Lose);
+            if (_ally.Count == 0)
+            {
+                bossWichAttack.DestroyCollider();
+
+                UIManager.Instance.ShowCondition(Condition.Lose);
+            }
+            bossWichAttack.Idle();
         }
-        bossWichAttack.Idle();
     }
-
+    
     public void Kill(Ally ally)
     {
         _ally.Remove(ally);

@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowCondition(Condition condition)
     {
+        print("ShowCondition");
         switch (condition)
         {
             case Condition.Victory: _victoryScreen.Show(); _loseScreen.Hide();

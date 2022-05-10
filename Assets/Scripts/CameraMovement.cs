@@ -15,6 +15,7 @@ public class CameraMovement : MonoBehaviour
     public void Start()
     {
         Application.targetFrameRate = 60;
+        
     }
 
     private void Update()

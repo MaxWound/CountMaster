@@ -28,4 +28,6 @@ public class Ally : MonoBehaviour
     {
         _animator.SetBool("Victory", true);
     }
+    
+    
 }

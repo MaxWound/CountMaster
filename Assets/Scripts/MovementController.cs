@@ -6,6 +6,7 @@ public class MovementController : MonoBehaviour
 
     private const float SENSIVITY = 0.1f;
     [SerializeField] private float _speed;
+   
     [SerializeField] private CameraMovement _cameraMovement;
     private float _mouseStart;
     private float _mouseCurrent => Input.mousePosition.x;
@@ -28,6 +29,7 @@ public class MovementController : MonoBehaviour
 
     private void Update()
     {
+        
         if (isMove)
         {
             AlliesGroup.Instance.Run();

@@ -40,7 +40,7 @@ public class Boss : MonoBehaviour
         if (_currentHelth <= 0)
         {
             Death();
-            Destroy(_boxCollider);
+            DestroyCollider();
         }
     }
 
@@ -60,7 +60,10 @@ public class Boss : MonoBehaviour
         AlliesGroup.Instance.KillAllies(this);
     }
 
-
+    public void DestroyCollider()
+    {
+        Destroy(_boxCollider);
+    }
 
     public void Idle()
     {
