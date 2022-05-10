@@ -10,7 +10,7 @@ public class Gunner : MonoBehaviour
     
     public Weapon Weapon => _weapon;
     private Animator _animator;
-
+    private bool isFighting = false;
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -18,7 +18,11 @@ public class Gunner : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        AlliesGroup.Instance.Battle(this);
+        if (other.TryGetComponent(out Ally ally) && isFighting != true)
+        {
+            isFighting = true;
+            AlliesGroup.Instance.Battle(this);
+        }
 
     }
     public void Attack()
@@ -28,5 +32,9 @@ public class Gunner : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+    }
+    public void SelfDestroy()
+    {
+        Destroy(gameObject);
     }
 }

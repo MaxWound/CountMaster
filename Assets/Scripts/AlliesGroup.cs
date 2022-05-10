@@ -194,7 +194,7 @@ public class AlliesGroup : MonoBehaviour
         _ally.ForEach(ally => ally.Attack(true));
         gunner.Attack();
         yield return new WaitForSeconds(0.25f);
-        while (gunner.currentHealth > 0)
+        while (gunner.currentHealth > 0 || gunner != null)
         {
             if (_ally.Count == 0)
                 break;
@@ -203,21 +203,21 @@ public class AlliesGroup : MonoBehaviour
 
             _ally[0].Weapon.Fire();
             gunner.Weapon.Fire();
+            Ally allyToDestroy = _ally[0];
+            Kill(allyToDestroy);
             gunner.TakeDamage(1);
+
             SoundsController.Instance.Play(Sound.Fire);
 
             yield return new WaitForSeconds(0.125f);
 
-            Gunner gunnerToDestroy = gunner;
+           
 
            
 
 
 
-            Ally allyToDestroy = _ally[0];
-            _ally[0].SpawnPoint.Despawn();
-            _ally.Remove(allyToDestroy);
-            Destroy(allyToDestroy.gameObject);
+            
             
             yield return new WaitForEndOfFrame();
 
@@ -227,7 +227,7 @@ public class AlliesGroup : MonoBehaviour
             if (gunner.currentHealth == 0)
             {
                 MovementController.Instance.ChangeControllerState();
-                Destroy(gunner.gameObject);
+                gunner.SelfDestroy();
                 break;
             }
         }
@@ -299,6 +299,12 @@ public class AlliesGroup : MonoBehaviour
             _original = _ally[0];
         }
         Destroy(ally.gameObject);
+        if(_ally.Count == 0)
+        {
+            MovementController.Instance.ChangeControllerState();
+            UIManager.Instance.ShowCondition(Condition.Lose);
+        }
+        
     }
 
     public void Substruct(float count)
