@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EnemiesGroup : MonoBehaviour
 {
+    [SerializeField]
+    private Officer _officer;
     private const int _enemiesPerRing = 6;
     [SerializeField] private int _enemiesCount;
     public void SetEnemiesCount(int value)
@@ -114,8 +116,10 @@ public class EnemiesGroup : MonoBehaviour
 
     public void Destory()
     {
+
         GroupIsAlive = false;
+        _officer.Death(true);
         _text.text = null;
-        Destroy(gameObject,1.5f);
+        Destroy(gameObject,1f);
     }
 }
