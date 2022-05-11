@@ -16,9 +16,12 @@ public class Ally : MonoBehaviour
         _animator = GetComponent<Animator>();
         allyParticles = vfxGo.GetComponent<ParticleSystem>();
     }
-    public void DieAnim()
+    public void SelfDestroy()
     {
         allyParticles.Play();
+        vfxGo.transform.parent = null;
+        Destroy(vfxGo, 1f);
+        Destroy(gameObject);
     }
     public void Attack(bool state)
     {

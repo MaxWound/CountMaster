@@ -16,12 +16,22 @@ public class Enemy : MonoBehaviour
 
     public void SelfDestroy()
     {
+        Death();
         enemyParticles.Play();
         vfxGo.transform.parent = null;
+       
         Destroy(vfxGo, 1f);
-        Destroy(gameObject);
+        
+        Destroy(gameObject, 1f);
 
             
+    }
+    public void Death()
+    {
+        Weapon.ExitFire();
+        _animator.SetBool("Attack", false);
+        
+        _animator.SetBool("Death",true);
     }
     public void Attack()
     {

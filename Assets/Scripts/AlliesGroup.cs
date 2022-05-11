@@ -156,17 +156,18 @@ public class AlliesGroup : MonoBehaviour
             _ally[0].Weapon.Fire();
             enemies[0].Weapon.Fire();
             SoundsController.Instance.Play(Sound.Fire);
-
-            yield return new WaitForSeconds(0.125f);
-
             Enemy enemyToDestroy = enemies[0];
             enemyToDestroy.SelfDestroy();
             enemies.Remove(enemies[0]);
+            Ally allyToDestroy = _ally[0];
+            Kill(allyToDestroy);
+            yield return new WaitForSeconds(0.125f);
+
+           
             /*
             Destroy(enemyToDestroy.gameObject);
             */
-            Ally allyToDestroy = _ally[0];
-            Kill(allyToDestroy);
+            
             yield return new WaitForEndOfFrame();
 
             if (_ally.Count == 0)
@@ -298,8 +299,9 @@ public class AlliesGroup : MonoBehaviour
             {
                 if (_ally.Count > 0)
                 {
-                    Destroy(_ally[0].gameObject);
+                    _ally[0].SelfDestroy();
                     _ally.Remove(_ally[0]);
+                    
                 }
                 i++;
             }
@@ -324,8 +326,7 @@ public class AlliesGroup : MonoBehaviour
             {
                 _original = _ally[0];
             }
-            Destroy(ally.gameObject);
-            ally.SpawnPoint.PlayDieAnim();
+            ally.SelfDestroy();
             if (_ally.Count == 0)
             {
                 _officer.Death(true);

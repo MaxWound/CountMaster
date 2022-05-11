@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Gunner : MonoBehaviour
 {
+    [SerializeField] GameObject vfxGo;
+    private ParticleSystem gunnerParticles;
     [SerializeField] private int health;
     [SerializeField] private Weapon _weapon;
     public int currentHealth;
@@ -13,6 +15,7 @@ public class Gunner : MonoBehaviour
     private bool isFighting = false;
     private void Awake()
     {
+        gunnerParticles = vfxGo.GetComponent<ParticleSystem>();
         _animator = GetComponent<Animator>();
         currentHealth = health;
     }
@@ -33,13 +36,23 @@ public class Gunner : MonoBehaviour
     {
         _animator.SetBool("Attack", true);
     }
+    public void Death()
+    {
+        _animator.SetBool("Attack", false);
+        _animator.SetBool("Death", true);
+    }
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
     }
     public void SelfDestroy()
     {
-        Destroy(gameObject);
+        vfxGo.transform.parent = null;
+        Destroy(vfxGo, 1f);
+
+        gunnerParticles.Play();
+        Death();
+        Destroy(gameObject,1f);
         
     }
 }

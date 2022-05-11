@@ -7516,6 +7516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weapon: {fileID: 8322510472915850322}
+  vfxGo: {fileID: 1905930206594838106}
 --- !u!1 &8322510472678035733
 GameObject:
   m_ObjectHideFlags: 0
@@ -25557,6 +25558,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e4c5229fd0e4724887db6c83c99c75d, type: 3}
+--- !u!1 &1905930206594838106 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2101023295896050291, guid: 8e4c5229fd0e4724887db6c83c99c75d, type: 3}
+  m_PrefabInstance: {fileID: 530137101521515561}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1905930206594561864 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2101023295895798625, guid: 8e4c5229fd0e4724887db6c83c99c75d, type: 3}

@@ -11,7 +11,7 @@ public class EnemiesGroup : MonoBehaviour
     {
         _enemiesCount = value;
     }
-
+    private bool GroupIsAlive = true;
     [SerializeField] private Enemy _original;
     [SerializeField] private TextMeshPro _text;
     [SerializeField] private ParticleSystem _auraVFX;
@@ -41,7 +41,10 @@ public class EnemiesGroup : MonoBehaviour
 
     private void Update()
     {
-        _text.text = _enemy.Count.ToString();
+        if (GroupIsAlive)
+        {
+            _text.text = _enemy.Count.ToString();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -111,6 +114,8 @@ public class EnemiesGroup : MonoBehaviour
 
     public void Destory()
     {
-        Destroy(gameObject);
+        GroupIsAlive = false;
+        _text.text = null;
+        Destroy(gameObject,1.5f);
     }
 }
