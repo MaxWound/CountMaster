@@ -7,13 +7,19 @@ public class Ally : MonoBehaviour
     private Animator _animator;
     public SpawnPoint SpawnPoint { get; set; }
     [SerializeField] private Weapon _weapon;
+    [SerializeField] GameObject vfxGo;
+    private ParticleSystem allyParticles;
     public Weapon Weapon => _weapon;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        allyParticles = vfxGo.GetComponent<ParticleSystem>();
     }
-
+    public void DieAnim()
+    {
+        allyParticles.Play();
+    }
     public void Attack(bool state)
     {
         _animator.SetBool("Attack", state);

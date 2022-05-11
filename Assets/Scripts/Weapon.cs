@@ -8,6 +8,8 @@ public class Weapon : MonoBehaviour
 
     public void Fire()
     {
+        
         _muzzleFlash.ForEach(vfx => vfx.Play());
+        print("Fire");
     }
 }

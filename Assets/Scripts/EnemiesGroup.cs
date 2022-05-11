@@ -16,9 +16,11 @@ public class EnemiesGroup : MonoBehaviour
     [SerializeField] private TextMeshPro _text;
     [SerializeField] private ParticleSystem _auraVFX;
 
+    private List<SpawnPoint> spawnPoints;
     private bool DetectCollisions = true;
     private List<Enemy> _enemy = new List<Enemy>();
     public List<Enemy> GetEnemies() => _enemy;
+   
     public void Remove(Enemy enemyToRemove)
     {
         _enemy.Remove(enemyToRemove);
@@ -29,7 +31,7 @@ public class EnemiesGroup : MonoBehaviour
 
         int Ring = GetRing();
         _enemy.Add(_original);
-        List<SpawnPoint> spawnPoints = GetSpawnPoints(Ring);
+         spawnPoints = GetSpawnPoints(Ring);
 
         SpawnEnemies(spawnPoints);
 
@@ -95,6 +97,8 @@ public class EnemiesGroup : MonoBehaviour
         for (int i = 0; i < spawnPoint.Count; i ++)
         {
             _enemy.Add(spawnPoint[i].Spawn(_original, transform));
+            Enemy newEnemy = _enemy[i];
+            newEnemy.SpawnPoint = spawnPoint[i];
         }
     }
 

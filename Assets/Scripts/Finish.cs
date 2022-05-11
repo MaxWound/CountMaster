@@ -11,6 +11,7 @@ public class Finish : MonoBehaviour
         {
             MovementController.Instance.ChangeControllerState();
             UIManager.Instance.ShowCondition(Condition.Victory);
+            AlliesGroup.Instance._officer.Idle(true);
             AlliesGroup.Instance.Dancing();
             _particleSystem.ForEach(particle => particle.Play());
         }

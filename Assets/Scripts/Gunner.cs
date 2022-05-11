@@ -25,6 +25,10 @@ public class Gunner : MonoBehaviour
         }
 
     }
+    public void Idle()
+    {
+        _animator.SetBool("Attack", false);
+    }
     public void Attack()
     {
         _animator.SetBool("Attack", true);
@@ -36,5 +40,6 @@ public class Gunner : MonoBehaviour
     public void SelfDestroy()
     {
         Destroy(gameObject);
+        
     }
 }

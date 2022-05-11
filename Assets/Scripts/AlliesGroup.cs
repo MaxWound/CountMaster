@@ -9,6 +9,7 @@ public class AlliesGroup : MonoBehaviour
     private const int AlliesPerRing = 6;
     public static AlliesGroup Instance;
     [SerializeField] private Ally _original;
+    [SerializeField] public Officer _officer;
     private Vector3 _centerPoint => transform.position;
     [SerializeField] private int _maxAlliesRings;
     private float _totalSpawnPoints;
@@ -142,6 +143,7 @@ public class AlliesGroup : MonoBehaviour
     {
         MovementController.Instance.ChangeControllerState();
         _ally.ForEach(ally => ally.Attack(true));
+        _officer.Idle(true);
         enemies.ForEach(enemies => enemies.Attack());
         yield return new WaitForSeconds(0.25f);
         while (true)
@@ -158,17 +160,25 @@ public class AlliesGroup : MonoBehaviour
             yield return new WaitForSeconds(0.125f);
 
             Enemy enemyToDestroy = enemies[0];
+            enemyToDestroy.SelfDestroy();
             enemies.Remove(enemies[0]);
+            /*
             Destroy(enemyToDestroy.gameObject);
-
+            */
             Ally allyToDestroy = _ally[0];
             Kill(allyToDestroy);
             yield return new WaitForEndOfFrame();
 
             if (_ally.Count == 0)
+            {
+                
                 break;
+            }
             if (enemies.Count == 0)
+            {
+                _officer.Idle(false);
                 break;
+            }
         }
 
         if (_ally.Count > 0)
@@ -179,64 +189,62 @@ public class AlliesGroup : MonoBehaviour
                 _original = _ally[0];
             }
             _ally.ForEach(ally => ally.Attack(false));
+            _officer.Run(true);
             groupToRemove.Destory();
-            
         }
         else
         {
-           
             UIManager.Instance.ShowCondition(Condition.Lose);
         }
     }
     private IEnumerator StartBattle(Gunner gunner)
     {
-        MovementController.Instance.ChangeControllerState();
-        _ally.ForEach(ally => ally.Attack(true));
-        gunner.Attack();
-        yield return new WaitForSeconds(0.25f);
-        while (gunner.currentHealth > 0 || gunner != null)
+        if (_ally.Count != 0)
         {
-            if (_ally.Count == 0)
-                break;
-            if (gunner.currentHealth == 0)
-                break;
-
-            _ally[0].Weapon.Fire();
-            gunner.Weapon.Fire();
-            Ally allyToDestroy = _ally[0];
-            Kill(allyToDestroy);
-            gunner.TakeDamage(1);
-
-            SoundsController.Instance.Play(Sound.Fire);
-
-            yield return new WaitForSeconds(0.125f);
-
-           
-
-           
-
-
-
-            
-            
-            yield return new WaitForEndOfFrame();
-
-            if (_ally.Count == 0)
-
+            MovementController.Instance.ChangeControllerState();
+            _ally.ForEach(ally => ally.Attack(true));
+            _officer.Idle(true);
+            gunner.Attack();
+            yield return new WaitForSeconds(0.25f);
+            while (gunner.currentHealth > 0)
             {
-                UIManager.Instance.ShowCondition(Condition.Lose);
-                MovementController.Instance.ChangeControllerState();
-                break;
+                if (_ally.Count == 0)
+                    break;
+                if (gunner.currentHealth == 0)
+                    break;
+                gunner.TakeDamage(1);
+
+                SoundsController.Instance.Play(Sound.Fire);
+                _ally[0].Weapon.Fire();
+                gunner.Weapon.Fire();
+                yield return new WaitForSeconds(0.125f);
+
+                yield return new WaitForEndOfFrame();
+
+                Ally allyToDestroy = _ally[0];
+                Kill(allyToDestroy);
+                
+                if (_ally.Count == 0)
+                {
+                    gunner.Idle();
+                    _officer.Death(true);
+                    UIManager.Instance.ShowCondition(Condition.Lose);
+                    MovementController.Instance.ChangeControllerState();
+                    break;
+                }
+               else if (gunner.currentHealth == 0)
+                {
+                    _ally.ForEach(ally => ally.Attack(false));
+                    _officer.Run(true);
+                    MovementController.Instance.ChangeControllerState();
+                    gunner.SelfDestroy();
+                    break;
+                }
+
             }
-            else if (gunner.currentHealth == 0)
-            {
-                _ally.ForEach(ally => ally.Attack(false));
-                MovementController.Instance.ChangeControllerState();
-                gunner.SelfDestroy();
-                break;
-            }
+
         }
-        
+
 
     }
     private IEnumerator StartBattle(Boss boss)
@@ -245,6 +253,7 @@ public class AlliesGroup : MonoBehaviour
         while (boss.Helth > 0)
         {
             _ally.ForEach(ally => ally.Attack(true));
+            _officer.Idle(true);
             for (int i = 0; i < _ally.Count; i++)
             {
                 _ally[i].Weapon.Fire();
@@ -252,10 +261,10 @@ public class AlliesGroup : MonoBehaviour
 
                 SoundsController.Instance.Play(Sound.Fire);
                 yield return new WaitForSeconds(0.11f);
-                
+
             }
-            
-            if(_ally.Count != 0)
+
+            if (_ally.Count != 0)
             {
                 boss.KillAllies();
             }
@@ -263,6 +272,7 @@ public class AlliesGroup : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
         }
         MovementController.Instance.ChangeControllerState();
+        _officer.Run(true);
         _ally.ForEach(ally => ally.Attack(false));
     }
     #endregion
@@ -270,6 +280,7 @@ public class AlliesGroup : MonoBehaviour
     public void Run()
     {
         _ally.ForEach(ally => ally.Run(true));
+        _officer.Run(true);
     }
 
     public void Dancing()
@@ -296,27 +307,33 @@ public class AlliesGroup : MonoBehaviour
             if (_ally.Count == 0)
             {
                 bossWichAttack.DestroyCollider();
-
+                _officer.Death(true);
                 UIManager.Instance.ShowCondition(Condition.Lose);
             }
             bossWichAttack.Idle();
         }
     }
-    
+
     public void Kill(Ally ally)
     {
-        _ally.Remove(ally);
-        if (_original == null)
+
+        if (_ally.Count != 0)
         {
-            _original = _ally[0];
+            _ally.Remove(ally);
+            if (_original == null && _ally.Count != 0)
+            {
+                _original = _ally[0];
+            }
+            Destroy(ally.gameObject);
+            ally.SpawnPoint.PlayDieAnim();
+            if (_ally.Count == 0)
+            {
+                _officer.Death(true);
+                MovementController.Instance.ChangeControllerState();
+                UIManager.Instance.ShowCondition(Condition.Lose);
+            }
         }
-        Destroy(ally.gameObject);
-        if(_ally.Count == 0)
-        {
-            MovementController.Instance.ChangeControllerState();
-            UIManager.Instance.ShowCondition(Condition.Lose);
-        }
-        
+
     }
 
     public void Substruct(float count)
@@ -334,6 +351,7 @@ public class AlliesGroup : MonoBehaviour
             {
                 Kill(_ally[0]);
             }
+            _officer.Death(true);
             UIManager.Instance.ShowCondition(Condition.Lose);
             MovementController.Instance.ChangeControllerState();
         }
