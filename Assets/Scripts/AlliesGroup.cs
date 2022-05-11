@@ -149,9 +149,15 @@ public class AlliesGroup : MonoBehaviour
         while (true)
         {
             if (_ally.Count == 0)
+            {
+
                 break;
+            }
+
             if (enemies.Count == 0)
+            {
                 break;
+            }
 
             _ally[0].Weapon.Fire();
             enemies[0].Weapon.Fire();
@@ -163,16 +169,16 @@ public class AlliesGroup : MonoBehaviour
             Kill(allyToDestroy);
             yield return new WaitForSeconds(0.125f);
 
-           
+
             /*
             Destroy(enemyToDestroy.gameObject);
             */
-            
+
             yield return new WaitForEndOfFrame();
 
             if (_ally.Count == 0)
             {
-                
+
                 break;
             }
             if (enemies.Count == 0)
@@ -193,10 +199,7 @@ public class AlliesGroup : MonoBehaviour
             _officer.Run(true);
             groupToRemove.Destory();
         }
-        else
-        {
-            UIManager.Instance.ShowCondition(Condition.Lose);
-        }
+
     }
     private IEnumerator StartBattle(Gunner gunner)
     {
@@ -224,16 +227,16 @@ public class AlliesGroup : MonoBehaviour
 
                 Ally allyToDestroy = _ally[0];
                 Kill(allyToDestroy);
-                
+
                 if (_ally.Count == 0)
                 {
                     gunner.Idle();
-                    _officer.Death(true);
-                    UIManager.Instance.ShowCondition(Condition.Lose);
-                    MovementController.Instance.ChangeControllerState();
+
+
+
                     break;
                 }
-               else if (gunner.currentHealth == 0)
+                else if (gunner.currentHealth == 0)
                 {
                     _ally.ForEach(ally => ally.Attack(false));
                     _officer.Run(true);
@@ -301,7 +304,7 @@ public class AlliesGroup : MonoBehaviour
                 {
                     _ally[0].SelfDestroy();
                     _ally.Remove(_ally[0]);
-                    
+
                 }
                 i++;
             }
@@ -322,17 +325,59 @@ public class AlliesGroup : MonoBehaviour
         if (_ally.Count != 0)
         {
             _ally.Remove(ally);
+            ally.SpawnPoint.Despawn();
             if (_original == null && _ally.Count != 0)
             {
                 _original = _ally[0];
             }
             ally.SelfDestroy();
-            if (_ally.Count == 0)
+            if (_ally.Count <= 0)
             {
                 _officer.Death(true);
-                MovementController.Instance.ChangeControllerState();
+
                 UIManager.Instance.ShowCondition(Condition.Lose);
             }
+        }
+        else
+        {
+            _officer.Death(true);
+
+            UIManager.Instance.ShowCondition(Condition.Lose);
+        }
+
+    }
+    public void Kill(Ally ally, bool byObstacle)
+    {
+
+        if (_ally.Count != 0)
+        {
+            _ally.Remove(ally);
+            ally.SpawnPoint.Despawn();
+            if (_original == null && _ally.Count != 0)
+            {
+                _original = _ally[0];
+            }
+            ally.SelfDestroy();
+            if (_ally.Count <= 0)
+            {
+                if (byObstacle)
+                {
+                    MovementController.Instance.ChangeControllerState();
+                }
+                _officer.Death(true);
+
+                UIManager.Instance.ShowCondition(Condition.Lose);
+            }
+        }
+        else
+        {
+            if (byObstacle)
+            {
+                MovementController.Instance.ChangeControllerState();
+            }
+            _officer.Death(true);
+
+            UIManager.Instance.ShowCondition(Condition.Lose);
         }
 
     }

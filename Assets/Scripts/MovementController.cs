@@ -87,6 +87,7 @@ public class MovementController : MonoBehaviour
 
     public void ChangeControllerState()
     {
+        print("ChangeController");
         isMove = isMove ? false : true;
         _cameraMovement.ChangeState();
     }

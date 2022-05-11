@@ -10,7 +10,7 @@ public class Obstacle : MonoBehaviour
         if (ally != null && AlliesGroup.Instance.Count != 0)
         {
             
-            AlliesGroup.Instance.Kill(ally);
+            AlliesGroup.Instance.Kill(ally, true);
             
            
         }

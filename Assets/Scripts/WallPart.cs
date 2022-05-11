@@ -59,6 +59,7 @@ public class WallPart : MonoBehaviour
 
     private void SpawnAllies(Ally allyOriginal, WallOperation operation)
     {
+        
         SpawnPoint spawnPoint;
         if (operation == WallOperation.Sum)
         {

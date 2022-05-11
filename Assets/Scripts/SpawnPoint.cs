@@ -8,8 +8,8 @@ public class SpawnPoint
    
     public Vector3 Position { get; set; }
     public int Ring { get; set; }
-    public bool isEmpty => empty;
-    private bool empty;
+    public bool isEmpty => empty; 
+private bool empty;
     
     public SpawnPoint(Vector3 position, int ring)
     {
