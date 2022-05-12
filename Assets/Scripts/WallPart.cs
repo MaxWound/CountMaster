@@ -47,7 +47,10 @@ public class WallPart : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         Wall.Triggered();
+        AlliesGroup.Instance.UpdateRingsValue();
+        
         SpawnAllies(other.GetComponent<Ally>(), _operation);
         _particleSystem.ForEach(vfx => vfx.Play());
 
@@ -60,6 +63,7 @@ public class WallPart : MonoBehaviour
     private void SpawnAllies(Ally allyOriginal, WallOperation operation)
     {
         
+        
         SpawnPoint spawnPoint;
         if (operation == WallOperation.Sum)
         {
@@ -67,8 +71,11 @@ public class WallPart : MonoBehaviour
             {
                 if (AlliesGroup.Instance.TryGetAllySpawnPosition(out spawnPoint))
                 {
+                    
                     Ally ally = spawnPoint.Spawn(allyOriginal, allyOriginal.transform.parent);
+                    print(ally.gameObject.name);
                     ally.SpawnPoint = spawnPoint;
+                   
                     AlliesGroup.Instance.Add(ally);
                     SoundsController.Instance.Play(Sound.CheckPoint);
                 }
@@ -83,6 +90,7 @@ public class WallPart : MonoBehaviour
                 if (AlliesGroup.Instance.TryGetAllySpawnPosition(out spawnPoint))
                 {
                     Ally ally = spawnPoint.Spawn(allyOriginal, allyOriginal.transform.parent);
+                    
                     ally.SpawnPoint = spawnPoint;
                     AlliesGroup.Instance.Add(ally);
                     SoundsController.Instance.Play(Sound.CheckPoint);
@@ -94,6 +102,7 @@ public class WallPart : MonoBehaviour
         {
             AlliesGroup.Instance.Substruct(SpawnCoefficient);
         }
+       
     }
 }
 

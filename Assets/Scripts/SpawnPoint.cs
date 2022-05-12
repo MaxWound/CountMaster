@@ -13,6 +13,7 @@ private bool empty;
     
     public SpawnPoint(Vector3 position, int ring)
     {
+        
         Position = position;
         Ring = ring;
         empty = true;
@@ -31,7 +32,7 @@ private bool empty;
     {
         empty = true;
     }
-
+    
     public void SetEmpty(bool state)
     {
         empty = state;
@@ -42,7 +43,9 @@ private bool empty;
       
         empty = false;
         Ally ally = Object.Instantiate(original, AlliesGroup.Instance.transform.position + Position, original.transform.rotation, parent);
+          
         ally.transform.position = new Vector3(ally.transform.position.x, original.transform.position.y, ally.transform.position.z);
+        Debug.Log(AlliesGroup.Instance.transform.position - ally.transform.position);
         soldierParticles = GameObject.Instantiate(soldierParticlesGo, ally.transform.position, Quaternion.LookRotation(new Vector3(0,0,0), new Vector3(0,1,0)) , parent).GetComponent<ParticleSystem>();
         return ally;
 

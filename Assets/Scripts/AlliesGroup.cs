@@ -8,8 +8,9 @@ public class AlliesGroup : MonoBehaviour
     private const float DensityCoefficient = 0.5f;
     private const int AlliesPerRing = 6;
     public static AlliesGroup Instance;
-    [SerializeField] private Ally _original;
+    [SerializeField] public Ally _original;
     [SerializeField] public Officer _officer;
+    public Ally original => _original;
     private Vector3 _centerPoint => transform.position;
     [SerializeField] private int _maxAlliesRings;
     private float _totalSpawnPoints;
@@ -43,11 +44,21 @@ public class AlliesGroup : MonoBehaviour
         FilledRings = 1;
     }
 
+    public void SetOriginal()
+    {
+        
+            _original = _ally[0];
+            print($"ORIGINAL {_ally[0].gameObject.name}");
+        
+    }
     private void Start()
     {
         _ally.Add(_original);
-        SpawnPoint spawnPoint = new SpawnPoint(_original.transform.position, 0);
+
+        SpawnPoint spawnPoint = new SpawnPoint(_original.transform.localPosition, 0);
+        
         _ally[0].SpawnPoint = spawnPoint;
+        
         spawnPoint.SetEmpty(false);
         _spawnPoint.Add(spawnPoint);
         for (int allyRing = 1; allyRing < _maxAlliesRings; allyRing++)
@@ -81,6 +92,7 @@ public class AlliesGroup : MonoBehaviour
 
         if (emptyPoints.Count > 0)
         {
+            
             spawnPoint = emptyPoints[0];
             return true;
         }
@@ -191,10 +203,7 @@ public class AlliesGroup : MonoBehaviour
         if (_ally.Count > 0)
         {
             MovementController.Instance.ChangeControllerState();
-            if (_original == null)
-            {
-                _original = _ally[0];
-            }
+            SetOriginal();
             _ally.ForEach(ally => ally.Attack(false));
             _officer.Run(true);
             groupToRemove.Destory();
@@ -302,7 +311,8 @@ public class AlliesGroup : MonoBehaviour
             {
                 if (_ally.Count > 0)
                 {
-                    _ally[0].SelfDestroy();
+                    _ally[0].Die(true);
+                    _ally[0].SelfDestroyWithDelay(0.5f);
                     _ally.Remove(_ally[0]);
 
                 }
@@ -330,7 +340,9 @@ public class AlliesGroup : MonoBehaviour
             {
                 _original = _ally[0];
             }
-            ally.SelfDestroy();
+            ally.Die(true);
+            ally.SelfDestroyWithDelay(0.5f);
+            
             if (_ally.Count <= 0)
             {
                 _officer.Death(true);
@@ -353,28 +365,32 @@ public class AlliesGroup : MonoBehaviour
         {
             _ally.Remove(ally);
             ally.SpawnPoint.Despawn();
-            if (_original == null && _ally.Count != 0)
-            {
-                _original = _ally[0];
-            }
             ally.SelfDestroy();
+
             if (_ally.Count <= 0)
             {
-                if (byObstacle)
-                {
+             
                     MovementController.Instance.ChangeControllerState();
-                }
+                
                 _officer.Death(true);
 
                 UIManager.Instance.ShowCondition(Condition.Lose);
             }
+            else
+            {
+                if (_original == null)
+                {
+                    _original = _ally[0];
+                }
+                //_spawnPoint.Remove(ally.SpawnPoint);
+            }
         }
         else
         {
-            if (byObstacle)
-            {
-                MovementController.Instance.ChangeControllerState();
-            }
+            
+
+            MovementController.Instance.ChangeControllerState();
+            
             _officer.Death(true);
 
             UIManager.Instance.ShowCondition(Condition.Lose);
