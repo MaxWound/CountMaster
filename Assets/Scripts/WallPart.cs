@@ -26,7 +26,10 @@ public class WallPart : MonoBehaviour
         _coefficientText.text = $"{GetOperationString()}{SpawnCoefficient}";
         _particleSystem.ForEach(system => system.gameObject.transform.parent = null);
     }
-
+    public WallOperation GetOperation()
+    {
+        return _operation;
+    }
     public string GetOperationString()
     {
         if (_operation == WallOperation.Multiply)

@@ -33,8 +33,32 @@ public class LevelGenerator : MonoBehaviour
                 leftValue = lowerValue;
                 rightValue = higherValue;
             }
+            for (int j = 0; j < _wall.Count; j++)
+            {
+                if (_wall[j].wallParts[0].GetOperation() == WallOperation.Multiply)
+                {
+                    int LeftRandomMult = Random.Range(1, 4);
 
-            _wall[i].SetWallValue(leftValue, rightValue);
+
+                    int RightRandomMult = Random.Range(1, 4);
+                    if (RightRandomMult == LeftRandomMult)
+                    {
+                        RightRandomMult = Random.Range(1, 4);
+                    }
+                    else
+                    {
+                        _wall[j].SetWallValue(LeftRandomMult, RightRandomMult);
+                    }
+                }
+                else
+                {
+                    _wall[i].SetWallValue(leftValue, rightValue);
+                }
+            }
         }
     }
+    private void GenerateWallsValues()
+    {
+       
+    }    
 }

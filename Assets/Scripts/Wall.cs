@@ -8,6 +8,8 @@ public class Wall : MonoBehaviour
     [SerializeField] private WallPart[] _wallPart = new WallPart[2];
 
     [SerializeField] private int[] _spawnCoefficient = new int[2];
+    public WallPart[] wallParts => _wallPart;
+    
     public void SetWallValue(int leftValue, int rightValue)
     {
         WallPart left;
@@ -15,14 +17,18 @@ public class Wall : MonoBehaviour
 
         for (int i = 0; i < _wallPart.Length; i++)
         {
-            if (_wallPart[i].Side == WallSide.Right)
+            if (_wallPart[i] != null)
             {
-                right = _wallPart[i];
-                right.SpawnCoefficient = leftValue;
-            }else
-            {
-                left = _wallPart[i];
-                left.SpawnCoefficient = rightValue;
+                if (_wallPart[i].Side == WallSide.Right)
+                {
+                    right = _wallPart[i];
+                    right.SpawnCoefficient = leftValue;
+                }
+                else
+                {
+                    left = _wallPart[i];
+                    left.SpawnCoefficient = rightValue;
+                }
             }
         }
     }
@@ -42,7 +48,10 @@ public class Wall : MonoBehaviour
     {
         for(int i = 0; i < _wallPart.Length; i++)
         {
-            _wallPart[i].Wall = this;
+            if (_wallPart[i] != null)
+            {
+                _wallPart[i].Wall = this;
+            }
         }
         SetWallValue(_spawnCoefficient[0], _spawnCoefficient[1]);
     }
@@ -56,7 +65,11 @@ public class Wall : MonoBehaviour
     {
         foreach(WallPart part in _wallPart)
         {
-           bool _ = part != null ? part.Collider.enabled = false : part.Collider.enabled = true;
+            if (part != null)
+            {
+                bool _ = part != null ? part.Collider.enabled = false : part.Collider.enabled = true;
+            }
+            
         }
     }
 }
