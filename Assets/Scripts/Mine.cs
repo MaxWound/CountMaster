@@ -15,18 +15,23 @@ public class Mine : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        ExplodeWithSeconds(0.2f);  
+        if (other.GetComponent<Ally>() != null)
+        {
+            ExplodeWithSeconds(0.2f);
+        }
     }
     private void OnTriggerStay(Collider other)
     {
-        
-        if (ToExplode == true)
+        if (other.GetComponent<Ally>() != null)
         {
-            Explode();
-            print("KillByMine");
-            Ally ally = other.GetComponent<Ally>();
-            AlliesGroup.Instance.Kill(ally, true);
-           
+            if (ToExplode == true)
+            {
+                Explode();
+                print("KillByMine");
+                Ally ally = other.GetComponent<Ally>();
+                AlliesGroup.Instance.Kill(ally, true);
+
+            }
         }
     }
     private void Explode()
