@@ -4176,6 +4176,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BOSS
       objectReference: {fileID: 0}
+    - target: {fileID: 8477799397016731241, guid: 35b67e00244872a4198339df2204e72e, type: 3}
+      propertyPath: _helicopter
+      value: 
+      objectReference: {fileID: 3759131296228457114}
     - target: {fileID: 9145932397731357906, guid: 35b67e00244872a4198339df2204e72e, type: 3}
       propertyPath: m_RootOrder
       value: 1

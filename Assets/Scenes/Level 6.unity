@@ -330,6 +330,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OneWall
       objectReference: {fileID: 0}
+    - target: {fileID: 7850792572800616840, guid: d21b5565022feb344a50bc714e270f92, type: 3}
+      propertyPath: _spawnCoefficient.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d21b5565022feb344a50bc714e270f92, type: 3}
 --- !u!1 &72967380
