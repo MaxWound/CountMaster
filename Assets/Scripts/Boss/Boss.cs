@@ -51,7 +51,7 @@ public class Boss : MonoBehaviour
         deathSoundSource.Play();
         transform.position = new Vector3(transform.position.x, 0.75f, transform.position.z);
         _animator.SetBool("Death", true);
-        _helicopter.GetComponent<Animator>().Play("Root");
+        
     }
 
 

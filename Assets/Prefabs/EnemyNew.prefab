@@ -25526,6 +25526,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: GreenBloodExplosionRoundAnimated
       objectReference: {fileID: 0}
+    - target: {fileID: 3117208830346805097, guid: 6f9a25d72116b1c488dc50c7471d9cf1, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3117208830346852571, guid: 6f9a25d72116b1c488dc50c7471d9cf1, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f9a25d72116b1c488dc50c7471d9cf1, type: 3}
 --- !u!1 &157442236653744858 stripped
