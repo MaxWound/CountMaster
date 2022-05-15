@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour
         yield return new WaitUntil(() => Input.GetMouseButton(0));
         MovementController.Instance.Enable();
         MovementController.Instance.ChangeControllerState();
+        AlliesGroup.Instance.StartSteps();
         _UIPanel.Hide();
     }
 
@@ -39,6 +40,7 @@ public class UIManager : MonoBehaviour
             case Condition.Lose: _loseScreen.Show();_victoryScreen.Hide();
                 break;
         }
+        AlliesGroup.Instance.StopSteps();
     }
 }
 

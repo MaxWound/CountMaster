@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class AlliesGroup : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip stepSounds;
+    private AudioSource stepsSource;
     private const float DensityCoefficient = 0.5f;
     private const int AlliesPerRing = 6;
     public static AlliesGroup Instance;
@@ -40,6 +43,7 @@ public class AlliesGroup : MonoBehaviour
 
     private void Awake()
     {
+        stepsSource = GetComponent<AudioSource>();
         Instance = this;
         FilledRings = 1;
     }
@@ -51,8 +55,17 @@ public class AlliesGroup : MonoBehaviour
             print($"ORIGINAL {_ally[0].gameObject.name}");
         
     }
+    public void StartSteps()
+    {
+        stepsSource.Play();
+    }
+    public void StopSteps()
+    {
+        stepsSource.Stop();
+    }
     private void Start()
     {
+        StopSteps();
         _ally.Add(_original);
 
         SpawnPoint spawnPoint = new SpawnPoint(_original.transform.localPosition, 0);
@@ -154,6 +167,7 @@ public class AlliesGroup : MonoBehaviour
     private IEnumerator StartBattle(List<Enemy> enemies, EnemiesGroup groupToRemove)
     {
         MovementController.Instance.ChangeControllerState();
+        stepsSource.Stop();
         _ally.ForEach(ally => ally.Attack(true));
         _officer.Idle(true);
         enemies.ForEach(enemies => enemies.Attack());
@@ -173,7 +187,7 @@ public class AlliesGroup : MonoBehaviour
 
             _ally[0].Weapon.Fire();
             enemies[0].Weapon.Fire();
-            SoundsController.Instance.Play(Sound.Fire);
+            _ally[0].FireSound();
             Enemy enemyToDestroy = enemies[0];
             enemyToDestroy.SelfDestroy();
             enemies.Remove(enemies[0]);
@@ -206,6 +220,7 @@ public class AlliesGroup : MonoBehaviour
             SetOriginal();
             _ally.ForEach(ally => ally.Attack(false));
             _officer.Run(true);
+            stepsSource.Play();
             groupToRemove.Destory();
         }
 
@@ -214,6 +229,7 @@ public class AlliesGroup : MonoBehaviour
     {
         if (_ally.Count != 0)
         {
+            stepsSource.Stop();
             MovementController.Instance.ChangeControllerState();
             _ally.ForEach(ally => ally.Attack(true));
             _officer.Idle(true);
@@ -227,7 +243,7 @@ public class AlliesGroup : MonoBehaviour
                     break;
                 gunner.TakeDamage(1);
 
-                SoundsController.Instance.Play(Sound.Fire);
+                _ally[0].FireSound();
                 _ally[0].Weapon.Fire();
                 gunner.Weapon.Fire();
                 yield return new WaitForSeconds(0.125f);
@@ -248,6 +264,7 @@ public class AlliesGroup : MonoBehaviour
                 else if (gunner.currentHealth == 0)
                 {
                     _ally.ForEach(ally => ally.Attack(false));
+                    stepsSource.Play();
                     _officer.Run(true);
                     MovementController.Instance.ChangeControllerState();
                     gunner.SelfDestroy();
@@ -262,6 +279,7 @@ public class AlliesGroup : MonoBehaviour
     }
     private IEnumerator StartBattle(Boss boss)
     {
+        stepsSource.Stop();
         MovementController.Instance.ChangeControllerState();
         while (boss.Helth > 0)
         {
@@ -271,8 +289,12 @@ public class AlliesGroup : MonoBehaviour
             {
                 _ally[i].Weapon.Fire();
                 boss.TakeDamage(1);
-
-                SoundsController.Instance.Play(Sound.Fire);
+                  
+                _ally[i].FireSound();
+                if (boss.Helth <= 0)
+                {
+                    break;
+                }
                 yield return new WaitForSeconds(0.11f);
 
             }
@@ -285,6 +307,7 @@ public class AlliesGroup : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
         }
         MovementController.Instance.ChangeControllerState();
+        stepsSource.Play();
         _officer.Run(true);
         _ally.ForEach(ally => ally.Attack(false));
     }
@@ -292,8 +315,10 @@ public class AlliesGroup : MonoBehaviour
 
     public void Run()
     {
+
         _ally.ForEach(ally => ally.Run(true));
         _officer.Run(true);
+        
     }
 
     public void Dancing()
@@ -346,7 +371,7 @@ public class AlliesGroup : MonoBehaviour
             if (_ally.Count <= 0)
             {
                 _officer.Death(true);
-
+                stepsSource.Stop();
                 UIManager.Instance.ShowCondition(Condition.Lose);
             }
         }
@@ -363,15 +388,17 @@ public class AlliesGroup : MonoBehaviour
 
         if (_ally.Count != 0)
         {
+            
             _ally.Remove(ally);
             ally.SpawnPoint.Despawn();
+            ally.PlayDeathWithDetach();
             ally.SelfDestroy();
 
             if (_ally.Count <= 0)
             {
              
                     MovementController.Instance.ChangeControllerState();
-                
+                stepsSource.Stop();
                 _officer.Death(true);
 
                 UIManager.Instance.ShowCondition(Condition.Lose);
@@ -387,7 +414,7 @@ public class AlliesGroup : MonoBehaviour
         }
         else
         {
-            
+            stepsSource.Stop();
 
             MovementController.Instance.ChangeControllerState();
             

@@ -76,13 +76,14 @@ public class WallPart : MonoBehaviour
                 {
                     
                     Ally ally = spawnPoint.Spawn(allyOriginal, allyOriginal.transform.parent);
-                    print(ally.gameObject.name);
+                    
                     ally.SpawnPoint = spawnPoint;
                    
                     AlliesGroup.Instance.Add(ally);
-                    SoundsController.Instance.Play(Sound.CheckPoint);
+                   
                 }
             }
+            SoundsController.Instance.Play(Sound.CheckPoint);
         }
 
         if (operation == WallOperation.Multiply)
@@ -96,9 +97,10 @@ public class WallPart : MonoBehaviour
                     
                     ally.SpawnPoint = spawnPoint;
                     AlliesGroup.Instance.Add(ally);
-                    SoundsController.Instance.Play(Sound.CheckPoint);
+                    
                 }
             }
+            SoundsController.Instance.Play(Sound.CheckPoint);
         }
 
         if (operation == WallOperation.Substruction)

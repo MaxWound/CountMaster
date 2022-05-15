@@ -7,11 +7,12 @@ public class Mine : MonoBehaviour
     [SerializeField]
     GameObject vfxGo;
     ParticleSystem mineParticles;
+    AudioSource mineAudio;
     private bool ToExplode;
     private void Awake()
     {
         mineParticles = vfxGo.GetComponent<ParticleSystem>();
-
+        mineAudio = vfxGo.GetComponent<AudioSource>();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -37,6 +38,7 @@ public class Mine : MonoBehaviour
     private void Explode()
     {
         mineParticles.Play();
+        mineAudio.Play();
         vfxGo.transform.parent = null;
         Destroy(vfxGo, 1f);
         Destroy(gameObject);

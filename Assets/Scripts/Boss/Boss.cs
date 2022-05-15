@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
+    AudioSource deathSoundSource;
     [SerializeField] private float _helth;
     private float _currentHelth;
     public float Helth => _currentHelth;
@@ -16,6 +17,7 @@ public class Boss : MonoBehaviour
 
     private void Start()
     {
+        deathSoundSource = GetComponent<AudioSource>();
         _currentHelth = _helth;
         _animator = GetComponent<Animator>();
         _boxCollider = GetComponent<BoxCollider>();
@@ -46,6 +48,7 @@ public class Boss : MonoBehaviour
 
     public void Death()
     {
+        deathSoundSource.Play();
         transform.position = new Vector3(transform.position.x, 0.75f, transform.position.z);
         _animator.SetBool("Death", true);
         _helicopter.GetComponent<Animator>().Play("Root");

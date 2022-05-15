@@ -11,7 +11,7 @@ public class SoundsController : MonoBehaviour
     [SerializeField] private AudioClip _checkPointClip;
     [SerializeField] private AudioClip _victoryClip;
     [SerializeField] private AudioClip _loseClip;
-
+    [SerializeField] private AudioClip _deathClip;
     private void Awake()
     {
         Instance = this;
@@ -26,6 +26,9 @@ public class SoundsController : MonoBehaviour
     {
         switch(sound)
         {
+            case Sound.Death:
+                _audioSource.clip = _deathClip; _audioSource.Play();
+                break;
             case Sound.Fire: _audioSource.clip = _fireClip; _audioSource.Play();
                 break;
             case Sound.CheckPoint: _audioSource.clip = _checkPointClip; _audioSource.Play();
@@ -40,6 +43,7 @@ public class SoundsController : MonoBehaviour
 
 public enum Sound
 {
+    Death,
     Fire,
     CheckPoint,
     Victory,
