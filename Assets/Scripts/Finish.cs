@@ -9,7 +9,7 @@ public class Finish : MonoBehaviour
     {
         if (other.TryGetComponent(out Ally ally))
         {
-            MovementController.Instance.ChangeControllerState();
+            MovementController.Instance.SetControllerState(false);
             UIManager.Instance.ShowCondition(Condition.Victory);
             AlliesGroup.Instance._officer.Idle(true);
             AlliesGroup.Instance.Dancing();

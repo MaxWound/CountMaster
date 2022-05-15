@@ -84,6 +84,11 @@ public class MovementController : MonoBehaviour
         }
     }
 
+    public void SetControllerState(bool _bool)
+    {
+        isMove = _bool;
+        _cameraMovement.SetState(!_bool);
+    }
 
     public void ChangeControllerState()
     {

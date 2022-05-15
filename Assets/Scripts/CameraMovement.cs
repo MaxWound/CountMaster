@@ -11,7 +11,10 @@ public class CameraMovement : MonoBehaviour
     {
         isStop = isStop ? isStop = false : isStop = true;
     }
-
+    public void SetState(bool _bool)
+    {
+        isStop = _bool;
+    }
     public void Start()
     {
         Application.targetFrameRate = 60;
