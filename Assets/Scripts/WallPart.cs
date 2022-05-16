@@ -17,9 +17,10 @@ public class WallPart : MonoBehaviour
 
     public delegate void AlliesChanged();
     public event AlliesChanged OnAlliesCountChanged;
-
+    Ally _allyOriginal;
     private void Start()
     {
+        _allyOriginal = AlliesGroup.Instance.original;
         OnAlliesCountChanged += AlliesGroup.Instance.UpdateRingsValue;
 
         _collider = GetComponent<Collider>();
@@ -63,7 +64,7 @@ public class WallPart : MonoBehaviour
        
     }
 
-    private void SpawnAllies(Ally allyOriginal, WallOperation operation)
+    private void SpawnAllies(Ally _allyOriginal, WallOperation operation)
     {
         
         
@@ -75,7 +76,7 @@ public class WallPart : MonoBehaviour
                 if (AlliesGroup.Instance.TryGetAllySpawnPosition(out spawnPoint))
                 {
                     
-                    Ally ally = spawnPoint.Spawn(allyOriginal, allyOriginal.transform.parent);
+                  Ally ally = spawnPoint.Spawn(_allyOriginal, _allyOriginal.transform.parent);
                     
                     ally.SpawnPoint = spawnPoint;
                    
@@ -93,7 +94,7 @@ public class WallPart : MonoBehaviour
             {
                 if (AlliesGroup.Instance.TryGetAllySpawnPosition(out spawnPoint))
                 {
-                    Ally ally = spawnPoint.Spawn(allyOriginal, allyOriginal.transform.parent);
+                    Ally ally = spawnPoint.Spawn(_allyOriginal, _allyOriginal.transform.parent);
                     
                     ally.SpawnPoint = spawnPoint;
                     AlliesGroup.Instance.Add(ally);

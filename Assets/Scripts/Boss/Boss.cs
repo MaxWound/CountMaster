@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
+    [SerializeField]
+    AudioSource punchSoundSource;
+    [SerializeField]
     AudioSource deathSoundSource;
     [SerializeField] private float _helth;
     private float _currentHelth;
@@ -30,10 +33,15 @@ public class Boss : MonoBehaviour
             AlliesGroup.Instance.Battle(this);
         }
     }
-
+    public void PlayPunchSound()
+    {
+        punchSoundSource.Play();
+    }
     public void TakeDamage(float value)
     {
         _animator.SetBool("Attack", true);
+        
+
         _currentHelth -= value;
        
         float helthToPercent = _currentHelth / _helth;
@@ -59,7 +67,7 @@ public class Boss : MonoBehaviour
 
     public void KillAllies()
     {
-        
+        PlayPunchSound();
         AlliesGroup.Instance.KillAllies(this);
     }
 

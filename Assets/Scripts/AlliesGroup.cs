@@ -80,9 +80,20 @@ public class AlliesGroup : MonoBehaviour
             {
                 Vector3 position = new Vector3(Mathf.Sin(angle * Mathf.Deg2Rad), 0f, Mathf.Cos(angle * Mathf.Deg2Rad)) / 2f * allyRing * DensityCoefficient;
                 _spawnPoint.Add(new SpawnPoint(position, allyRing));
+
+
+                
+
+
+
             }
         }
-
+/*
+        Ally newAlly = _spawnPoint[0].Spawn(_original, _original.transform.parent);
+        newAlly.SpawnPoint = _spawnPoint[0];
+        _ally.Add(newAlly);
+        _original = _ally[0];
+*/
         _totalSpawnPoints = _spawnPoint.Count;
     }
 
@@ -171,7 +182,7 @@ public class AlliesGroup : MonoBehaviour
         _ally.ForEach(ally => ally.Attack(true));
         _officer.Idle(true);
         enemies.ForEach(enemies => enemies.Attack());
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.1f);
         while (true)
         {
             if (_ally.Count == 0)
@@ -193,15 +204,9 @@ public class AlliesGroup : MonoBehaviour
             enemies.Remove(enemies[0]);
             Ally allyToDestroy = _ally[0];
             Kill(allyToDestroy);
-            yield return new WaitForSeconds(0.125f);
 
-
-            /*
-            Destroy(enemyToDestroy.gameObject);
-            */
-
-            yield return new WaitForEndOfFrame();
-
+            
+            yield return new WaitForSeconds(0.01f);
             if (_ally.Count == 0)
             {
 
@@ -212,6 +217,25 @@ public class AlliesGroup : MonoBehaviour
                 _officer.Idle(false);
                 break;
             }
+
+
+            enemies[0].SelfDestroy();
+
+            
+            enemies.Remove(enemies[0]);
+            
+            Kill(_ally[0]);
+
+            yield return new WaitForSeconds(0.1f);
+
+
+            /*
+            Destroy(enemyToDestroy.gameObject);
+            */
+
+            yield return new WaitForEndOfFrame();
+
+           
         }
 
         if (_ally.Count > 0)
@@ -234,7 +258,7 @@ public class AlliesGroup : MonoBehaviour
             _ally.ForEach(ally => ally.Attack(true));
             _officer.Idle(true);
             gunner.Attack();
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.1f);
             while (gunner.currentHealth > 0)
             {
                 if (_ally.Count == 0)
@@ -246,7 +270,7 @@ public class AlliesGroup : MonoBehaviour
                 _ally[0].FireSound();
                 _ally[0].Weapon.Fire();
                 gunner.Weapon.Fire();
-                yield return new WaitForSeconds(0.125f);
+                yield return new WaitForSeconds(0.1f);
 
                 yield return new WaitForEndOfFrame();
 
@@ -283,6 +307,7 @@ public class AlliesGroup : MonoBehaviour
         MovementController.Instance.ChangeControllerState();
         while (boss.Helth > 0)
         {
+            
             _ally.ForEach(ally => ally.Attack(true));
             _officer.Idle(true);
             for (int i = 0; i < _ally.Count; i++)
@@ -295,16 +320,19 @@ public class AlliesGroup : MonoBehaviour
                 {
                     break;
                 }
-                yield return new WaitForSeconds(0.11f);
+                
+                yield return new WaitForSeconds(0.15f);
 
             }
 
             if (_ally.Count != 0)
             {
+                
                 boss.KillAllies();
             }
-
+            
             yield return new WaitForSeconds(0.75f);
+            
         }
         MovementController.Instance.ChangeControllerState();
         stepsSource.Play();
