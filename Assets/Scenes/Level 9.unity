@@ -2573,7 +2573,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc7286b57c7ebb648be7cc172d6edb37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartCount: 500
   prefab: {fileID: 0}
   _pool: []
 --- !u!4 &1259828541
@@ -2781,6 +2780,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4487c6b8acd82b847b5b12619d96b1c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SoldiersInLine: 15
+  formationFirstPoint: {fileID: 0}
   stepSounds: {fileID: 0}
   _original: {fileID: 0}
   _officer: {fileID: 0}
@@ -3891,7 +3892,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6726435354151296984, guid: 8a484e97b7645da4baae045b19f714e8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 42.21
+      value: 39.97
       objectReference: {fileID: 0}
     - target: {fileID: 6726435354151296984, guid: 8a484e97b7645da4baae045b19f714e8, type: 3}
       propertyPath: m_LocalRotation.w

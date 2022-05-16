@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 341369e0dcc02fb489f399cd8fea45b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 8
+  _speed: 6
 --- !u!1001 &3305772159288358935
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -138,7 +138,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3238230249977107276, guid: 1e60518b22bf5f649bf135d63fa621dc, type: 3}
       propertyPath: _speed
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3238230249977107276, guid: 1e60518b22bf5f649bf135d63fa621dc, type: 3}
       propertyPath: _cameraMovement
@@ -191,6 +191,10 @@ PrefabInstance:
     - target: {fileID: 3238230249977107378, guid: 1e60518b22bf5f649bf135d63fa621dc, type: 3}
       propertyPath: m_Name
       value: AllyGroup
+      objectReference: {fileID: 0}
+    - target: {fileID: 3238230249977107379, guid: 1e60518b22bf5f649bf135d63fa621dc, type: 3}
+      propertyPath: SoldiersInLine
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3238230249977107379, guid: 1e60518b22bf5f649bf135d63fa621dc, type: 3}
       propertyPath: _maxAlliesRings

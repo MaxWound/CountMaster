@@ -47,6 +47,11 @@ public class Ally : MonoBehaviour
         deathAudioSource.gameObject.transform.parent = null;
         Destroy(deathAudioSource.gameObject, 1f);
     }
+    public void Salute()
+    {
+        _animator.SetBool("Salute", true);
+        
+    }
     public void Die(bool state)
     {
         _animator.SetBool("Die", true);

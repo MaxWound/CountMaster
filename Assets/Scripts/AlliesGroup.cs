@@ -2,9 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using DG.Tweening;
 
 public class AlliesGroup : MonoBehaviour
 {
+    [SerializeField]
+    private int SoldiersInLine = 10;
+    [SerializeField]
+    Transform formationFirstPoint;
     [SerializeField]
     private AudioClip stepSounds;
     private AudioSource stepsSource;
@@ -63,8 +68,69 @@ public class AlliesGroup : MonoBehaviour
     {
         stepsSource.Stop();
     }
+    public void AlliesFormation()
+    {
+        StartCoroutine(StartAlliesFormation());
+    }
+   public IEnumerator StartAlliesFormation()
+    {
+        int alliesSum = _ally.Count;
+        
+        
+        print(_ally.Count);
+
+        for(int lineNum = 1; lineNum < 100; lineNum++)
+        {
+            for( int j = 0; j < SoldiersInLine; j++)
+            {
+                yield return new WaitForSeconds(0.05f);
+                //_ally[0].Salute();
+                _ally[0].transform.DOMove(formationFirstPoint.position + new Vector3((j * 0.4f), 0f, (lineNum * -0.5f)), 0.5f);
+                _ally[0].transform.DORotate(new Vector3(0f, 180f, 0f), 0.5f);
+                _ally.Remove(_ally[0]);
+                if(_ally.Count == 0)
+                {
+                    lineNum = 1000;
+                    break;
+                }
+            }
+        }
+        yield return new WaitForSeconds(2.5f);
+        UIManager.Instance.ShowCondition(Condition.Victory);
+
+
+
+
+
+    }
+
+
+    /* _ally[0].transform.parent = null;
+        _ally[0].transform.DOMove(formationFirstPoint.position, 0.5f);
+        
+        print(_ally.Count);
+        for (int lineNum = 0; lineNum < _ally.Count / SoldiersInLine + 1; lineNum++)
+        {
+            for (int i = 1; i < _ally.Count; i++)
+            {
+                yield return new WaitForSeconds(0.1f);
+
+                //_ally[i].transform.position = _ally[i - 1].transform.position + new Vector3(0.2f, 0f, 0f);
+                _ally[i].transform.parent = null;
+                _ally[i].transform.DOMove(formationFirstPoint.position + new Vector3((i * 0.2f), 0f, lineNum * 0.5f), 0.5f);
+                
+                    print("form");
+
+            }
+        }
+    */
+
+
+
+
     private void Start()
     {
+        formationFirstPoint = GameObject.Find("FormationFirstPoint").transform;
         StopSteps();
         _ally.Add(_original);
 
@@ -94,7 +160,7 @@ public class AlliesGroup : MonoBehaviour
         _ally.Add(newAlly);
         _original = _ally[0];
 */
-        _totalSpawnPoints = _spawnPoint.Count;
+    _totalSpawnPoints = _spawnPoint.Count;
     }
 
     public void Update()
@@ -269,6 +335,7 @@ public class AlliesGroup : MonoBehaviour
 
                 _ally[0].FireSound();
                 _ally[0].Weapon.Fire();
+                gunner.Fire();
                 gunner.Weapon.Fire();
                 yield return new WaitForSeconds(0.1f);
 
@@ -307,7 +374,7 @@ public class AlliesGroup : MonoBehaviour
         MovementController.Instance.ChangeControllerState();
         while (boss.Helth > 0)
         {
-            
+            boss.StartKillAlliesWithInterval(2f);
             _ally.ForEach(ally => ally.Attack(true));
             _officer.Idle(true);
             for (int i = 0; i < _ally.Count; i++)
@@ -322,13 +389,18 @@ public class AlliesGroup : MonoBehaviour
                 }
                 
                 yield return new WaitForSeconds(0.15f);
+                
 
             }
 
             if (_ally.Count != 0)
             {
                 
-                boss.KillAllies();
+                
+            }
+            else
+            {
+                StopCoroutine(boss.KillAlliesWithInterval(2f));
             }
             
             yield return new WaitForSeconds(0.75f);
@@ -364,6 +436,7 @@ public class AlliesGroup : MonoBehaviour
             {
                 if (_ally.Count > 0)
                 {
+                    
                     _ally[0].Die(true);
                     _ally[0].SelfDestroyWithDelay(0.5f);
                     _ally.Remove(_ally[0]);
@@ -376,6 +449,7 @@ public class AlliesGroup : MonoBehaviour
             {
                 bossWichAttack.DestroyCollider();
                 _officer.Death(true);
+                bossWichAttack.toBattle = false;
                 UIManager.Instance.ShowCondition(Condition.Lose);
             }
             bossWichAttack.Idle();

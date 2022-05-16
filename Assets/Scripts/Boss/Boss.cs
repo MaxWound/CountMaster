@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
+    public bool toBattle = true;
     [SerializeField]
     AudioSource punchSoundSource;
     [SerializeField]
@@ -56,12 +57,27 @@ public class Boss : MonoBehaviour
 
     public void Death()
     {
+        toBattle = false;
         deathSoundSource.Play();
         transform.position = new Vector3(transform.position.x, 0.75f, transform.position.z);
         _animator.SetBool("Death", true);
         
     }
-
+    public void StartKillAlliesWithInterval(float t)
+    {
+        if (toBattle == true)
+        StartCoroutine(KillAlliesWithInterval(t));
+    }
+    public IEnumerator KillAlliesWithInterval(float t)
+    {
+        yield return new WaitForSeconds(t);
+        if (toBattle == true)
+        {
+            KillAllies();
+            StartCoroutine(KillAlliesWithInterval(t));
+        }
+        
+    }
 
     #region Animation Events
 

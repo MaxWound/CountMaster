@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Gunner : MonoBehaviour
 {
+    AudioSource fireAudio;
+
     [SerializeField] GameObject vfxGo;
     private ParticleSystem gunnerParticles;
     [SerializeField] private int health;
@@ -15,6 +17,7 @@ public class Gunner : MonoBehaviour
     private bool isFighting = false;
     private void Awake()
     {
+        fireAudio = GetComponent<AudioSource>();
         gunnerParticles = vfxGo.GetComponent<ParticleSystem>();
         _animator = GetComponent<Animator>();
         currentHealth = health;
@@ -27,6 +30,10 @@ public class Gunner : MonoBehaviour
             AlliesGroup.Instance.Battle(this);
         }
 
+    }
+    public void Fire()
+    {
+        fireAudio.Play();
     }
     public void Idle()
     {
