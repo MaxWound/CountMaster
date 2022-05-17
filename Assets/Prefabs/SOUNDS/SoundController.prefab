@@ -44,7 +44,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300002, guid: 22a95791a371e7c46adc5c148f8b90df, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.9
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -142,6 +142,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fireClip: {fileID: 8300000, guid: f48b32068a4a91f4b9fca0ab3e5c1018, type: 3}
   _checkPointClip: {fileID: 8300000, guid: 50c2b951c61c6ec4aadf4bfbccbc9b03, type: 3}
-  _victoryClip: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
-  _loseClip: {fileID: 8300000, guid: 3501937e8b228db4d8f5f0b68352a85b, type: 3}
+  _victoryClip: {fileID: 8300000, guid: 3e91089f99436ba40a99dedc4a7176d1, type: 3}
+  _loseClip: {fileID: 8300000, guid: 837d738a68fb21444a35ef24599be19e, type: 3}
   _deathClip: {fileID: 8300000, guid: ba71e0fc35755984992fe0284b0d28da, type: 3}

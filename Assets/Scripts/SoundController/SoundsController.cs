@@ -35,7 +35,7 @@ public class SoundsController : MonoBehaviour
                 break;
             case Sound.Victory: _audioSource.clip = _victoryClip; _audioSource.Play();
                 break;
-            case Sound.Lose: _audioSource.clip = _loseClip; _audioSource.Play();
+            case Sound.Lose: _audioSource.clip = _loseClip; _audioSource.volume = 100; _audioSource.Play();
                 break;
         }
     }

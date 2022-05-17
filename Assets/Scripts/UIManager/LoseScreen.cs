@@ -14,6 +14,7 @@ public class LoseScreen : MonoBehaviour
     {
         _canvasGroup.alpha = 1f;
         _canvasGroup.interactable = true;
+        
         SoundsController.Instance.Play(Sound.Lose);
     }
 

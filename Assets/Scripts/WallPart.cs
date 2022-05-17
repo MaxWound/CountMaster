@@ -35,7 +35,7 @@ public class WallPart : MonoBehaviour
     {
         if (_operation == WallOperation.Multiply)
         {
-            return "*";
+            return "X";
         }
         if (_operation == WallOperation.Sum)
         {

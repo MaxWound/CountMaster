@@ -450,7 +450,7 @@ public class AlliesGroup : MonoBehaviour
                 bossWichAttack.DestroyCollider();
                 _officer.Death(true);
                 bossWichAttack.toBattle = false;
-                UIManager.Instance.ShowCondition(Condition.Lose);
+                UIManager.Instance.ShowConditionWithDelay(Condition.Lose, 0.3f);
             }
             bossWichAttack.Idle();
         }
@@ -474,14 +474,14 @@ public class AlliesGroup : MonoBehaviour
             {
                 _officer.Death(true);
                 stepsSource.Stop();
-                UIManager.Instance.ShowCondition(Condition.Lose);
+                UIManager.Instance.ShowConditionWithDelay(Condition.Lose, 0.3f);
             }
         }
         else
         {
             _officer.Death(true);
 
-            UIManager.Instance.ShowCondition(Condition.Lose);
+            UIManager.Instance.ShowConditionWithDelay(Condition.Lose, 0.3f);
         }
 
     }
@@ -503,7 +503,7 @@ public class AlliesGroup : MonoBehaviour
                 stepsSource.Stop();
                 _officer.Death(true);
 
-                UIManager.Instance.ShowCondition(Condition.Lose);
+                UIManager.Instance.ShowConditionWithDelay(Condition.Lose, 0.3f);
             }
             else
             {
@@ -522,7 +522,7 @@ public class AlliesGroup : MonoBehaviour
             
             _officer.Death(true);
 
-            UIManager.Instance.ShowCondition(Condition.Lose);
+            UIManager.Instance.ShowConditionWithDelay(Condition.Lose, 0.3f);
         }
 
     }

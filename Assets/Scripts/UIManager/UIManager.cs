@@ -42,6 +42,26 @@ public class UIManager : MonoBehaviour
         }
         AlliesGroup.Instance.StopSteps();
     }
+    public void ShowConditionWithDelay(Condition condition , float t)
+    {
+        StartCoroutine(StartShowConditionWithDelay(condition, t));
+    }
+    public IEnumerator StartShowConditionWithDelay(Condition condition ,float t)
+    {
+        AlliesGroup.Instance.StopSteps();
+        yield return new WaitForSeconds(t);
+        print("ShowCondition");
+        switch (condition)
+        {
+            case Condition.Victory:
+                _victoryScreen.Show(); _loseScreen.Hide();
+                break;
+            case Condition.Lose:
+                _loseScreen.Show(); _victoryScreen.Hide();
+                break;
+        }
+        
+    }
 }
 
 public enum Condition
