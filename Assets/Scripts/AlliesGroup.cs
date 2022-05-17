@@ -10,6 +10,7 @@ public class AlliesGroup : MonoBehaviour
     private int SoldiersInLine = 10;
     [SerializeField]
     Transform formationFirstPoint;
+    Transform officerPoint;
     [SerializeField]
     private AudioClip stepSounds;
     private AudioSource stepsSource;
@@ -75,8 +76,8 @@ public class AlliesGroup : MonoBehaviour
    public IEnumerator StartAlliesFormation()
     {
         int alliesSum = _ally.Count;
-        
-        
+
+        _officer.transform.DOMove(officerPoint.position, 0.5f);
         print(_ally.Count);
 
         for(int lineNum = 1; lineNum < 100; lineNum++)
@@ -131,6 +132,7 @@ public class AlliesGroup : MonoBehaviour
     private void Start()
     {
         formationFirstPoint = GameObject.Find("FormationFirstPoint").transform;
+        officerPoint = GameObject.Find("OfficerPoint").transform;
         StopSteps();
         _ally.Add(_original);
 

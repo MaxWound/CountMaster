@@ -15,6 +15,7 @@ public class VictoryScreen : MonoBehaviour
         _canvasGroup.alpha = 1;
         _canvasGroup.interactable = true;
         SoundsController.Instance.Play(Sound.Victory);
+        Finish.Instance.PlayParticles();
     }
 
     public void Hide()
@@ -24,6 +25,13 @@ public class VictoryScreen : MonoBehaviour
 
     public void Continue()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if (SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCountInBuildSettings - 1)
+        {
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 }

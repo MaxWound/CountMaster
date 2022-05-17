@@ -140,8 +140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649eda0c1921ffb4ca35b4d2d06c469b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fireClip: {fileID: 8300000, guid: f48b32068a4a91f4b9fca0ab3e5c1018, type: 3}
+  _fireClip: {fileID: 8300000, guid: 8fcfe87618f703e42a0b7876bb94409a, type: 3}
   _checkPointClip: {fileID: 8300000, guid: 50c2b951c61c6ec4aadf4bfbccbc9b03, type: 3}
-  _victoryClip: {fileID: 8300000, guid: 3e91089f99436ba40a99dedc4a7176d1, type: 3}
+  _victoryClip: {fileID: 8300000, guid: b9a9e624f3b6d6a40a3c53639b521db7, type: 3}
   _loseClip: {fileID: 8300000, guid: 837d738a68fb21444a35ef24599be19e, type: 3}
   _deathClip: {fileID: 8300000, guid: ba71e0fc35755984992fe0284b0d28da, type: 3}

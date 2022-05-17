@@ -349,9 +349,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2728fb7779b4ef74baeb3fd2bfab5029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toBattle: 1
   punchSoundSource: {fileID: 3013573775817084489}
   deathSoundSource: {fileID: 5269989565933276042}
-  _helth: 35
+  _helth: 75
   _helthBar: {fileID: 1848240818573762085}
   _helicopter: {fileID: 0}
 --- !u!82 &5269989565933276042
