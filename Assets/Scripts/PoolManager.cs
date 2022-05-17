@@ -12,7 +12,7 @@ public class PoolManager : MonoBehaviour
     [SerializeField]
     Ally prefab;
     [SerializeField]
-    List<Ally> _pool;
+     public List<Ally> _pool;
     Transform GroupTransform;
 
 
@@ -23,7 +23,7 @@ public class PoolManager : MonoBehaviour
 
     private void Awake()
     {
-        StartCount = 700;
+        StartCount = 250;
         if(Instance == null)
         Instance = this;
         

@@ -438,7 +438,7 @@ public class AlliesGroup : MonoBehaviour
                 {
                     
                     _ally[0].Die(true);
-                    _ally[0].SelfDestroyWithDelay(0.5f);
+                    _ally[0].SelfOffWithDelay(0.5f);
                     _ally.Remove(_ally[0]);
 
                 }
@@ -468,7 +468,7 @@ public class AlliesGroup : MonoBehaviour
                 _original = _ally[0];
             }
             ally.Die(true);
-            ally.SelfDestroyWithDelay(0.5f);
+            ally.SelfOffWithDelay(0.5f);
             
             if (_ally.Count <= 0)
             {
@@ -493,8 +493,8 @@ public class AlliesGroup : MonoBehaviour
             
             _ally.Remove(ally);
             ally.SpawnPoint.Despawn();
-            ally.PlayDeathWithDetach();
-            ally.SelfDestroy();
+            
+            ally.SelfOff();
 
             if (_ally.Count <= 0)
             {
