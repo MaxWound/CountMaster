@@ -106,7 +106,7 @@ public class Ally : MonoBehaviour
         SetRendererBool(false);
         GoToPoolWithDelay(0.5f);
     }    
-    public void SelfDestroyWithDelay(float t)
+    public void OSelfDestroyWithDelay(float t)
     {
         allyParticles.Play();
         //vfxGo.transform.parent = null;
