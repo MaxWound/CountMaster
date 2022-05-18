@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using DG.Tweening;
+using MoreMountains.NiceVibrations;
+
 
 public class AlliesGroup : MonoBehaviour
 {
+    private bool ToVibrate;
     [SerializeField]
     private int SoldiersInLine = 10;
     [SerializeField]
@@ -36,7 +39,10 @@ public class AlliesGroup : MonoBehaviour
     #endregion
 
     private bool BossAttackStarted = false;
-
+    public void ToogleToVibrate()
+    {
+        ToVibrate = !ToVibrate;
+    }
     public void Add(Ally ally)
     {
         _ally.Add(ally);
@@ -49,6 +55,7 @@ public class AlliesGroup : MonoBehaviour
 
     private void Awake()
     {
+        ToVibrate = true;
         stepsSource = GetComponent<AudioSource>();
         Instance = this;
         FilledRings = 1;
@@ -68,6 +75,22 @@ public class AlliesGroup : MonoBehaviour
     public void StopSteps()
     {
         stepsSource.Stop();
+    }
+    public void PlayAllyVibration()
+    {
+        if (ToVibrate)
+        {
+            MMVibrationManager.Haptic(HapticTypes.LightImpact);
+            //MMVibrationManager.Vibrate();
+        }
+    }
+    public void PlayBossVibration()
+    {
+        if (ToVibrate)
+        {
+            MMVibrationManager.Haptic(HapticTypes.HeavyImpact);
+            //MMVibrationManager.Vibrate();
+        }
     }
     public void AlliesFormation()
     {
@@ -267,6 +290,7 @@ public class AlliesGroup : MonoBehaviour
             _ally[0].Weapon.Fire();
             enemies[0].Weapon.Fire();
             _ally[0].FireSound();
+            PlayAllyVibration();
             Enemy enemyToDestroy = enemies[0];
             enemyToDestroy.SelfDestroy();
             enemies.Remove(enemies[0]);
@@ -337,6 +361,7 @@ public class AlliesGroup : MonoBehaviour
 
                 _ally[0].FireSound();
                 _ally[0].Weapon.Fire();
+                PlayAllyVibration();
                 gunner.Fire();
                 gunner.Weapon.Fire();
                 yield return new WaitForSeconds(0.1f);
@@ -446,6 +471,7 @@ public class AlliesGroup : MonoBehaviour
                 }
                 i++;
             }
+            PlayBossVibration();
 
             if (_ally.Count == 0)
             {
@@ -457,12 +483,13 @@ public class AlliesGroup : MonoBehaviour
             bossWichAttack.Idle();
         }
     }
-
+    
     public void Kill(Ally ally)
     {
-
+       
         if (_ally.Count != 0)
         {
+            
             _ally.Remove(ally);
             ally.SpawnPoint.Despawn();
             if (_original == null && _ally.Count != 0)

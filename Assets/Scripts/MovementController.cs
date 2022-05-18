@@ -4,7 +4,7 @@ public class MovementController : MonoBehaviour
 {
     public static MovementController Instance;
 
-    private const float SENSIVITY = 0.04f;
+    private const float SENSIVITY = 0.03f;
     [SerializeField] private float _speed;
    
     [SerializeField] private CameraMovement _cameraMovement;
