@@ -16,7 +16,7 @@ public class Mine : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Ally>() != null)
+        if (other.GetComponent<Ally>() != null && other.GetComponent<Ally>().IsAlive == true)
         {
             ExplodeWithSeconds(0.2f);
         }

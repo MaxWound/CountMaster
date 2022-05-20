@@ -17,7 +17,7 @@ public class AlliesGroup : MonoBehaviour
     [SerializeField]
     private AudioClip stepSounds;
     private AudioSource stepsSource;
-    private const float DensityCoefficient = 0.5f;
+    private const float DensityCoefficient = 0.55f;
     private const int AlliesPerRing = 6;
     public static AlliesGroup Instance;
     [SerializeField] public Ally _original;
@@ -273,10 +273,72 @@ public class AlliesGroup : MonoBehaviour
         _ally.ForEach(ally => ally.Attack(true));
         _officer.Idle(true);
         enemies.ForEach(enemies => enemies.Attack());
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
+        
         while (true)
         {
+            print("HI");
+            if (enemies.Count == 0)
+            {
+                _officer.Idle(false);
+                break;
+            }
             if (_ally.Count == 0)
+            {
+
+                break;
+            }
+
+            for (int i = 0; i < _ally.Count; i++)
+            {
+                if (enemies.Count == 0)
+                {
+                    _officer.Idle(false);
+                    break;
+                }
+                if (_ally.Count == 0)
+                {
+
+                    break;
+                }
+
+                print("FOR");
+                int randNumberAlly = Random.Range(0, _ally.Count - 1);
+                int randNumberEnemy = Random.Range(0, enemies.Count - 1);
+                _ally[randNumberAlly].Weapon.Fire();
+                enemies[randNumberEnemy].Weapon.Fire();
+
+                _ally[randNumberAlly].FireSound();
+                _ally[randNumberAlly].AddForceBack();
+                Kill(_ally[randNumberAlly]);
+                if (_ally.Count == 0)
+                {
+
+                    break;
+                }
+                if (enemies.Count == 0)
+                {
+                    _officer.Idle(false);
+                    break;
+                }
+
+                enemies[randNumberEnemy].SelfDestroy();
+                enemies.Remove(enemies[randNumberEnemy]);
+                if (enemies.Count == 0)
+                {
+                    _officer.Idle(false);
+                    break;
+                }
+                
+               
+
+
+                //yield return new WaitForSeconds(0.001f);
+
+
+            }
+
+            /*if (_ally.Count == 0)
             {
 
                 break;
@@ -295,7 +357,9 @@ public class AlliesGroup : MonoBehaviour
             enemyToDestroy.SelfDestroy();
             enemies.Remove(enemies[0]);
             Ally allyToDestroy = _ally[0];
+           
             Kill(allyToDestroy);
+            print("сахиярбн");
 
             
             yield return new WaitForSeconds(0.01f);
@@ -321,13 +385,11 @@ public class AlliesGroup : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
 
 
-            /*
-            Destroy(enemyToDestroy.gameObject);
-            */
+          
 
             yield return new WaitForEndOfFrame();
+            */
 
-           
         }
 
         if (_ally.Count > 0)
@@ -496,8 +558,8 @@ public class AlliesGroup : MonoBehaviour
             {
                 _original = _ally[0];
             }
-            ally.Die(true);
-            ally.SelfOffWithDelay(0.5f);
+           // ally.Die(true);
+            ally.SelfOffWithDelay(2f);
             
             if (_ally.Count <= 0)
             {

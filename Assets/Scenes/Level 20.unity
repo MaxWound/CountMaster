@@ -3978,6 +3978,7 @@ GameObject:
   - component: {fileID: 2006995185}
   - component: {fileID: 2006995184}
   - component: {fileID: 2006995183}
+  - component: {fileID: 2006995182}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -3985,6 +3986,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &2006995182
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2006995181}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &2006995183
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4270,7 +4284,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3305772159050644512, guid: 191f7d436711bf84fb17edb0012f2b50, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.48
+      value: 0.625
       objectReference: {fileID: 0}
     - target: {fileID: 3305772159050644512, guid: 191f7d436711bf84fb17edb0012f2b50, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4307,6 +4321,10 @@ PrefabInstance:
     - target: {fileID: 3305772159050644513, guid: 191f7d436711bf84fb17edb0012f2b50, type: 3}
       propertyPath: m_Name
       value: AllyGroupAndCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048603110524227468, guid: 191f7d436711bf84fb17edb0012f2b50, type: 3}
+      propertyPath: m_Constraints
+      value: 126
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 191f7d436711bf84fb17edb0012f2b50, type: 3}

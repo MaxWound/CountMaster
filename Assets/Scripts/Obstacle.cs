@@ -6,8 +6,9 @@ public class Obstacle : MonoBehaviour
 {
     private void OnCollisionEnter(Collision other)
     {
+        
         Ally ally = other.gameObject.GetComponent<Ally>();
-        if (ally != null && AlliesGroup.Instance.Count != 0)
+        if (ally != null && AlliesGroup.Instance.Count != 0 && ally.IsAlive)
         {
             
             AlliesGroup.Instance.Kill(ally, true);

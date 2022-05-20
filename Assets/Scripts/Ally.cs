@@ -6,6 +6,7 @@ public class Ally : MonoBehaviour
 {
 
     private Animator _animator;
+    public bool IsAlive = true;
     public SpawnPoint SpawnPoint { get; set; }
     [SerializeField] private Weapon _weapon;
     [SerializeField] GameObject vfxGo;
@@ -23,12 +24,13 @@ public class Ally : MonoBehaviour
     [SerializeField]
     SkinnedMeshRenderer bodyRenderer;
     Collider capsuleCollider;
-
+    Rigidbody rb;
     private ParticleSystem allyParticles;
     public Weapon Weapon => _weapon;
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
         audioSource = GetComponent<AudioSource>();
         _animator = GetComponent<Animator>();
@@ -59,9 +61,20 @@ public class Ally : MonoBehaviour
         audioSource.Play();
     }
 
+    public void AddForceBack()
+    {
+        rb.constraints = RigidbodyConstraints.None;
+        rb.useGravity = true;
+        gameObject.transform.parent = null;
+
+        rb.AddForce(Vector3.back * 20f + Vector3.up * 0.1f, ForceMode.Impulse);
+        rb.AddTorque(new Vector3(Random.Range(0,5), Random.Range(0, 5), Random.Range(0, 5)));
+
+    }
     
     public void SelfDestroy()
     {
+        IsAlive = false;
         allyParticles.Play();
         //vfxGo.transform.parent = null;
         //Destroy(vfxGo, 1f);
@@ -70,10 +83,11 @@ public class Ally : MonoBehaviour
     }
     public void SelfOffWithDelay(float t)
     {
+        IsAlive = false;
         allyParticles.Play();
-        capsuleCollider.enabled = false;
+       
         SetRendererBoolWithDelay(false,t);
-        GoToPoolWithDelay(0.5f);
+        GoToPoolWithDelay(t);
 
 
     }
@@ -89,6 +103,7 @@ public class Ally : MonoBehaviour
     }
     public void GoToPool()
     {
+        
         transform.position = PoolManager.Instance.transform.position;
         transform.parent = PoolManager.Instance.transform;
         PoolManager.Instance._pool.Add(this);
@@ -96,7 +111,9 @@ public class Ally : MonoBehaviour
         headRenderer.enabled = true;
         bodyRenderer.enabled = true;
         capsuleCollider.enabled = true;
+        IsAlive = true;
         gameObject.SetActive(false);
+
     }
     public void SelfOff()
     {
